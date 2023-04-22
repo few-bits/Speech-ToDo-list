@@ -1,5 +1,5 @@
+export const APP_NAME = 'TODO'
 export const MODAL = {
-  OFF: 'off',
-  EDIT: 'edit',
-  ADD: 'add',
+  EDIT: 'Edit',
+  ADD: 'Add',
 }
