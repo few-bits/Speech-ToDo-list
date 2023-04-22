@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Heading, Container, OrderedList, IconButton, useDisclosure } from '@chakra-ui/react'
-import { AddIcon } from '@chakra-ui/icons'
-import { Item } from './Item'
+import { Heading, useDisclosure, VStack, Button } from '@chakra-ui/react'
+import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import { APP_NAME, MODAL } from './constants'
 import { EditModal } from './EditModal'
 import { useLocalStorage } from './hooks/useLocalStorage'
+import {List} from "./List.jsx";
 
 export const ToDo = () => {
   const [ list, setList] = useLocalStorage(APP_NAME, [])
@@ -44,20 +44,43 @@ export const ToDo = () => {
     onClose()
   }
 
+  const clearAll = () => {
+    setList([])
+  }
+
   return (
-    <Container>
-      <Heading>Speech ToDo</Heading>
-      <IconButton aria-label='Add item' icon={<AddIcon />} onClick={showModalAdd} />
-      <OrderedList>
-        {list.map((item, index) => (
-          <Item
-            key={`item_${index}`}
-            value={item}
-            editItem={() => showModalEdit({index, item})}
-            deleteItem={() => deleteItem(index)}
-          />
-        ))}
-      </OrderedList>
+    <VStack p={4} minH='100vh' pb={28}>
+      <Heading
+        p='5'
+        fontWeight='extrabold'
+        size='xl'
+        bgGradient='linear(to-l, teal.300, blue.500)'
+        bgClip='text'
+      >
+        Speech ToDo list
+      </Heading>
+      <Button
+        leftIcon={<AddIcon />}
+        colorScheme='blue'
+        variant='solid'
+        onClick={showModalAdd}
+      >
+        Add item
+      </Button>
+      <List
+        items={list}
+        showModalEdit={showModalEdit}
+        deleteItem={deleteItem}
+      />
+      {list.length && (
+        <Button
+          leftIcon={<DeleteIcon />}
+          variant='solid'
+          onClick={clearAll}
+        >
+          Clear all
+        </Button>
+      )}
       {isOpen && (
         <EditModal
           mode={modalMode}
@@ -68,6 +91,6 @@ export const ToDo = () => {
           onClose={onClose}
         />
       )}
-    </Container>
+    </VStack>
   )
 }

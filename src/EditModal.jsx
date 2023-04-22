@@ -77,6 +77,7 @@ export const EditModal = ({ mode, value, addItem, editItem, isOpen, onClose }) =
             onClick={handleSaveClick}
             isLoading={isRecording}
             loadingText='Recording...'
+            isDisabled={!textValue}
           >
             {mode}
           </Button>
